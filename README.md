@@ -1,6 +1,6 @@
 # gilt
 
-# Goal:
+# goal:
 
 we want to use technical tools to uplift people's abilities to take action. 
 
