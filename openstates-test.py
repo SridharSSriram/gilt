@@ -1,0 +1,185 @@
+import graphene
+
+class Query(graphene.ObjectType):
+  hello = graphene.String(name=graphene.String(default_value="World"))
+
+  def resolve_hello(self, info, name):
+    return 'Hello ' + name
+
+schema = graphene.Schema(query=Query)
+result = schema.execute('{ hello }')
+print(result.data['hello']) # "Hello World"
+
+
+'''
+Below is to search for legislators that represent a given area - this uses latitude/longitude
+{
+  people(latitude: 40.7460022, longitude: -73.9584642, first: 100) {
+    edges {
+      node {
+        name
+        chamber: currentMemberships(classification:["upper", "lower"]) {
+          post {
+            label
+          }
+          organization {
+            name
+            classification
+            parent {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+******* BELOW IS OUTPUT OF ABOVE QUERY  *******
+{
+  "data": {
+    "people": {
+      "edges": [
+        {
+          "node": {
+            "name": "Michael Gianaris",
+            "chamber": [
+              {
+                "post": {
+                  "label": "12"
+                },
+                "organization": {
+                  "name": "Senate",
+                  "classification": "upper",
+                  "parent": {
+                    "name": "New York Legislature"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "node": {
+            "name": "Catherine Nolan",
+            "chamber": [
+              {
+                "post": {
+                  "label": "37"
+                },
+                "organization": {
+                  "name": "Assembly",
+                  "classification": "lower",
+                  "parent": {
+                    "name": "New York Legislature"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+'''
+
+
+'''
+
+Get informaiton about a specific legislator:
+
+Need to iterate through the list of people provided from above and provided the following:
+
+Below is an example of how we would use each person found from above query 
+
+{
+  people(first: 2, name:"Catherine Nolan") {
+    edges {
+      node {
+        name
+        contactDetails{
+          note
+          type
+          value
+        }
+        chamber: currentMemberships(classification:["upper", "lower"]) {
+          post {
+            label
+          }
+          organization {
+            name
+            classification
+            parent {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+******** BELOW IS THE OUTPUT OF THE ABOVE QUERY ************
+{
+  "data": {
+    "people": {
+      "edges": [
+        {
+          "node": {
+            "name": "Catherine Nolan",
+            "contactDetails": [
+              {
+                "note": "Capitol Office",
+                "type": "address",
+                "value": "LOB 739;Albany, NY 12248"
+              },
+              {
+                "note": "Capitol Office",
+                "type": "email",
+                "value": "NolanC@nyassembly.gov"
+              },
+              {
+                "note": "Capitol Office",
+                "type": "voice",
+                "value": "518-455-4851"
+              },
+              {
+                "note": "District Office",
+                "type": "address",
+                "value": "47-40 21 Street Room 810;Long Island City, NY 11101"
+              },
+              {
+                "note": "District Office",
+                "type": "voice",
+                "value": "718-784-3194"
+              },
+              {
+                "note": "District Office",
+                "type": "fax",
+                "value": "718-472-0648"
+              }
+            ],
+            "chamber": [
+              {
+                "post": {
+                  "label": "37"
+                },
+                "organization": {
+                  "name": "Assembly",
+                  "classification": "lower",
+                  "parent": {
+                    "name": "New York Legislature"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+'''
