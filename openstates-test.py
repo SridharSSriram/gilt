@@ -87,7 +87,7 @@ Below is to search for legislators that represent a given area - this uses latit
 
 '''
 
-Get informaiton about a specific legislator:
+Get information about a specific legislator:
 
 Need to iterate through the list of people provided from above and provided the following:
 
