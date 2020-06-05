@@ -13,23 +13,23 @@
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 import requests
+import zipcode
 
-# from .someSchema import SampleSchema
-
-# client = Client(transport=RequestsHTTPTransport(
-#      url='https://openstates.org/graphql', headers={'Authorization': '1a53fe15-6b43-4943-9812-e4dadd6b518f'}), schema=SampleSchema)
-
-# X-API-KEY: 1a53fe15-6b43-4943-9812-e4dadd6b518f
-# curl -H 'X-Api-Key: 1a53fe15-6b43-4943-9812-e4dadd6b518f' 'https://openstates.org/graphql' 
 headers = {
 	'X-API-KEY': '1a53fe15-6b43-4943-9812-e4dadd6b518f'
 }
 
-# request.post()
+# code that takes zipcode given by user and returns the latitude and longitude necesssary to input into first query
+user_latitude, user_longitude = zipcode.fetch_lat_long('08820')
+
 #data can be dictionary or json
+
+# BELOW IS HOW TO DYNAMICALLY SEARCH FOR POLITICIANS
+'''
+politican_name = "\"Catherine Nolan\""
 query = """
 {
-  people(first: 2, name:"Catherine Nolan") {
+  people(first: 1, name:%s) {
     edges {
       node {
         name
@@ -54,7 +54,37 @@ query = """
     }
   }
 }
-"""
+""" % (politican_name)
+'''
+
+
+#BELOW IS CODE TO DYNAMICALLY SEARCH FOR POLITICIANS BASED ON LONGITUDE & LATITUDE
+latitude = user_latitude
+longitude = user_longitude
+query = """
+{
+  people(latitude: %s, longitude: %s, first: 100) {
+    edges {
+      node {
+        name
+        chamber: currentMemberships(classification:["upper", "lower"]) {
+          post {
+            label
+          }
+          organization {
+            name
+            classification
+            parent {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+""" % (latitude, longitude)
 
 
 payload = {'query': query}
@@ -65,35 +95,12 @@ response=requests.post('https://openstates.org/graphql', headers=headers, params
 print(response.json())
 
 person_dictionary = response.json()
-print(person)
+
+# print(person_dictionary['node'])
 
 
-# _transport = RequestsHTTPTransport(
-#     url= 'https://openstates.org/graphql',
-#     use_json=True,
-# )
-# client = Client(
-#     transport=_transport,
-#     fetch_schema_from_transport=True,
-# )
+# print(person_dictionary['email'])
 
-# print(client.execute(query))
-
-# client = Client(
-#     transport=sample_transport,
-#     fetch_schema_from_transport=True,
-# )
-
-# query = gql('''
-#     query getContinents {
-#       continents {
-#         code
-#         name
-#       }
-#     }
-# ''')
-
-# client.execute(query)
 '''
 Below is to search for legislators that represent a given area - this uses latitude/longitude
 {
