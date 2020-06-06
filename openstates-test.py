@@ -1,5 +1,6 @@
 import requests
 import zipcode
+import time
 
 headers = {
 	'X-API-KEY': '1a53fe15-6b43-4943-9812-e4dadd6b518f'
@@ -68,21 +69,47 @@ def generate_person_query(name):
 	""" % (politican_name)
 	return query
 
+def parse_location_response(response_text):
+	zipcode_response_string = response_text.replace("}","").replace("{","").replace("\"","").replace("]","")
+	zipcode_response = zipcode_response_string.split("node:")
+
+	# skips the first portion because of neglible text
+	major_tings = zipcode_response[1:]
+
+	rep_array ={}
+	for iterator in major_tings:
+		new_rep ={}
+		new_string = iterator.replace("name:","").replace("chamber:[post:label:","").replace("organization:","").replace("classification:","").replace("parent:","")
+		rep_info = new_string.split(",")
+		# initiates a new representative dictionary with following properties: district, legislature, chamber, and parent legislature
+		new_rep['district'] = rep_info[1]
+		new_rep['legislature'] = rep_info[2]
+		new_rep['chamber']= rep_info[3]
+		new_rep['parent legislature'] = rep_info[4]
+
+		# adds the representative information to rep_array as an entry with the name of representative as the key 
+		rep_array[rep_info[0]] = new_rep
+	
+	return rep_array
+
+
 # **** QUERY FOR ZIPCODE SEARCH ****
 user_latitude, user_longitude = zipcode.fetch_lat_long('08820')
 query = generate_location_query(user_latitude, user_longitude)
 
 # makning API call to fetch the information on local politicians
 payload = {'query': query}
-response=requests.post('https://openstates.org/graphql', headers=headers, params=payload)
+request_result=requests.post('https://openstates.org/graphql', headers=headers, params=payload)
 
-stored_tings = response.text
-ting = stored_tings.replace("}","")
-ting = ting.replace("\"","")
-ting = ting.split('{')
 
-for i in ting:
-	print(i)
+rep_array = parse_location_response(request_result.text)
+
+for rep_name in rep_array.keys():
+	rep_query = generate_person_query(rep_name)
+	payload = {'query': rep_query}
+	request_result=requests.post('https://openstates.org/graphql', headers=headers, params=payload)
+	print(request_result.json())
+	time.sleep(1)
 
 '''
 Plan for extracting text:
