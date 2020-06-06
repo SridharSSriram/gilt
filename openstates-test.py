@@ -92,9 +92,53 @@ def parse_location_response(response_text):
 	
 	return rep_array
 
+# def parse_legislator_response(response_text):
+	#SLEEP ON THIS AND COME BACK TO IT
+	# print(response_text)
+	# zipcode_response_string = response_text.replace("}","").replace("{","").replace("\"","").replace("]","")
+	# # zipcode_response = zipcode_response_string.split("email,value:")
+	# # print(zipcode_response_string)
+
+	# start = zipcode_response_string.find("email,value:") + len("email,value:")
+	# sub_test = zipcode_response_string[start:]
+	# print(sub_test)
+	# test = sub_test.split(",")
+	# for i in test:
+	# 	print(i)
+	# print(test[0])
+	# end = zipcode_response_string.find("Office,")
+	# substring = zipcode_response_string[start:end]
+	# print("\n")
+	# print(substring)
+	
+	# zipcode_response = zipcode_response.split("email,value:")
+
+	# print(zipcode_response)
+
+	# skips the first portion because of neglible text
+	# major_tings = zipcode_response[1:]
+
+	# rep_array ={}
+	# for iterator in major_tings:
+
+	# 	print(iterator)
+	# 	new_rep ={}
+	# 	new_string = iterator.replace("name:","").replace("chamber:[post:label:","").replace("organization:","").replace("classification:","").replace("parent:","")
+	# 	rep_info = new_string.split(",")
+	# 	# initiates a new representative dictionary with following properties: district, legislature, chamber, and parent legislature
+	# 	new_rep['district'] = rep_info[1]
+	# 	new_rep['legislature'] = rep_info[2]
+	# 	new_rep['chamber']= rep_info[3]
+	# 	new_rep['parent legislature'] = rep_info[4]
+
+	# 	# adds the representative information to rep_array as an entry with the name of representative as the key 
+	# 	rep_array[rep_info[0]] = new_rep
+	
+	# return rep_array
+
 
 # **** QUERY FOR ZIPCODE SEARCH ****
-user_latitude, user_longitude = zipcode.fetch_lat_long('08820')
+user_latitude, user_longitude = zipcode.fetch_lat_long('11207')
 query = generate_location_query(user_latitude, user_longitude)
 
 # makning API call to fetch the information on local politicians
@@ -105,10 +149,13 @@ request_result=requests.post('https://openstates.org/graphql', headers=headers, 
 rep_array = parse_location_response(request_result.text)
 
 for rep_name in rep_array.keys():
+	# print(rep_name)      
 	rep_query = generate_person_query(rep_name)
 	payload = {'query': rep_query}
 	request_result=requests.post('https://openstates.org/graphql', headers=headers, params=payload)
-	print(request_result.json())
+	# parse_legislator_response(request_result.text)
+
+	# buffers by one second to avoid the 1 request/second limit
 	time.sleep(1)
 
 '''
@@ -119,29 +166,6 @@ Plan for extracting text:
 3. Use regex to extract after names, classification, organization
 4. Create dictionary of people
 '''
-
-
-
-# **** QUERY FOR PERSON SEARCH ****
-# politican_name = "Catherine Nolan"
-# query = generate_person_query(politican_name)
-
-
-# convert to dictionary
-
-# need to reconcile legislator names!!!
-# print(response.json())
-# for item in response.text.:
-# 	print(item)
-# person = {"name": politican_name}
-
-# stored_tings = response.text
-# ting = stored_tings.replace("}","")
-# ting = ting.replace("\"","")
-# ting = ting.split('{')
-
-# for i in ting:
-# 	print(i)
 
 
 '''
