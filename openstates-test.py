@@ -1,17 +1,3 @@
-# import graphene
-
-# class Query(graphene.ObjectType):
-#   hello = graphene.String(name=graphene.String(default_value="World"))
-
-#   def resolve_hello(self, info, name):
-#     return 'Hello ' + name
-
-# schema = graphene.Schema(query=Query)
-# result = schema.execute('{ hello }')
-# print(result.data['hello']) # "Hello World"
-
-from gql import gql, Client
-from gql.transport.requests import RequestsHTTPTransport
 import requests
 import zipcode
 
@@ -19,87 +5,117 @@ headers = {
 	'X-API-KEY': '1a53fe15-6b43-4943-9812-e4dadd6b518f'
 }
 
-# code that takes zipcode given by user and returns the latitude and longitude necesssary to input into first query
-user_latitude, user_longitude = zipcode.fetch_lat_long('08820')
+#BELOW IS CODE TO DYNAMICALLY SEARCH FOR POLITICIANS BASED ON LONGITUDE & LATITUDE
+def generate_location_query(user_latitude, user_longitude):
+	latitude = user_latitude
+	longitude = user_longitude
+	query = """
+	{
+	  people(latitude: %s, longitude: %s, first: 100) {
+	    edges {
+	      node {
+	        name
+	        chamber: currentMemberships(classification:["upper", "lower"]) {
+	          post {
+	            label
+	          }
+	          organization {
+	            name
+	            classification
+	            parent {
+	              name
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }
+	}
 
-#data can be dictionary or json
+	""" % (latitude, longitude)
+	return query	
 
 # BELOW IS HOW TO DYNAMICALLY SEARCH FOR POLITICIANS
-'''
-politican_name = "\"Catherine Nolan\""
-query = """
-{
-  people(first: 1, name:%s) {
-    edges {
-      node {
-        name
-        contactDetails{
-          note
-          type
-          value
-        }
-        chamber: currentMemberships(classification:["upper", "lower"]) {
-          post {
-            label
-          }
-          organization {
-            name
-            classification
-            parent {
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-}
-""" % (politican_name)
-'''
+def generate_person_query(name):
+	politican_name = "\"%s\"" % (name)
+	query = """
+	{
+	  people(first: 1, name:%s) {
+	    edges {
+	      node {
+	        name
+	        contactDetails{
+	          note
+	          type
+	          value
+	        }
+	        chamber: currentMemberships(classification:["upper", "lower"]) {
+	          post {
+	            label
+	          }
+	          organization {
+	            name
+	            classification
+	            parent {
+	              name
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }
+	}
+	""" % (politican_name)
+	return query
 
+# **** QUERY FOR ZIPCODE SEARCH ****
+user_latitude, user_longitude = zipcode.fetch_lat_long('08820')
+query = generate_location_query(user_latitude, user_longitude)
 
-#BELOW IS CODE TO DYNAMICALLY SEARCH FOR POLITICIANS BASED ON LONGITUDE & LATITUDE
-latitude = user_latitude
-longitude = user_longitude
-query = """
-{
-  people(latitude: %s, longitude: %s, first: 100) {
-    edges {
-      node {
-        name
-        chamber: currentMemberships(classification:["upper", "lower"]) {
-          post {
-            label
-          }
-          organization {
-            name
-            classification
-            parent {
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-""" % (latitude, longitude)
-
-
+# makning API call to fetch the information on local politicians
 payload = {'query': query}
-#params ? query = <string>
-# body of your request
 response=requests.post('https://openstates.org/graphql', headers=headers, params=payload)
+
+stored_tings = response.text
+ting = stored_tings.replace("}","")
+ting = ting.replace("\"","")
+ting = ting.split('{')
+
+for i in ting:
+	print(i)
+
+'''
+Plan for extracting text:
+
+1. Take response as text
+2. Split text into lines
+3. Use regex to extract after names, classification, organization
+4. Create dictionary of people
+'''
+
+
+
+# **** QUERY FOR PERSON SEARCH ****
+# politican_name = "Catherine Nolan"
+# query = generate_person_query(politican_name)
+
+
 # convert to dictionary
-print(response.json())
 
-person_dictionary = response.json()
+# need to reconcile legislator names!!!
+# print(response.json())
+# for item in response.text.:
+# 	print(item)
+# person = {"name": politican_name}
 
-# print(person_dictionary['node'])
+# stored_tings = response.text
+# ting = stored_tings.replace("}","")
+# ting = ting.replace("\"","")
+# ting = ting.split('{')
 
+# for i in ting:
+# 	print(i)
 
-# print(person_dictionary['email'])
 
 '''
 Below is to search for legislators that represent a given area - this uses latitude/longitude
