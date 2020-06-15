@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Reach your reps</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/icons8-rose-16.png') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+<!-- 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/new_main.css') }}">
+<!--===============================================================================================-->
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    {errors}
+	<div class="container-contact100">
+
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form" method = "post" action=".">
+			    <center><div class="header">
+					<img style="width: 120%; height:90%" src = "static/images/header_illy_t.png">
+				</div></center>
+				<span class="contact100-form-title">
+						<!-- <strong>contact your reps</strong> -->
+						<h4 style="font-weight: 500; font-size:50px"> Reach your Reps</h4>
+					</span>
+					<br>
+				<!--<span class="contact100-form-title">-->
+				<!--	<strong> &mdash;&mdash;&mdash;</strong>-->
+				<!--</span>-->
+				<span class="contact100-form-title sub" style="color:black;">
+					Start local conversations to push for change in your community
+				</span>
+				<div class = "card" id="opening-statement" style="max-width: 85vw;">
+					<p style="font-weight: 600;text-transform: uppercase"> BLACK LIVES MATTER IS NOT A TREND</p>
+					<p style="font-weight: 300;font-size:16px;">
+                        To prevent more black lives from becoming hashtags because of police brutality, we need to help usher in actionable policy changes. To that end, this site is set up to use your best asset &ndash; your voice &ndash; to begin this change by contacting your statewide officials (we’ve provided a pre-formatted email for you once you click on a representative’s email).
+                        <br> <br>
+                        <span style="font-weight:600; font-size:18px">Couple of notes:</span>
+                        <br>
+                        The provided template discusses reallocation of municipal budgets, but we urge you to start conversations regarding all racial injustices.
+                        <br><br>
+                        Please edit the email template’s subject title & <strong>contribute your own message</strong>, beyond the provided email template. We want to ensure that these emails don’t sort into your representatives' spam folders.
+                        <br><br>
+                        Your inputted data is NOT stored & the name field is entirely optional &ndash; it is only used for to fill out the email template.
+                        <br><br>
+                        If the site happens to crash, please just reload.
+                        <br><br>
+                        Beyond the context of this site, please consider reading literature on systemic racism, contacting your other local and national representatives, donating, signing petitions, and voting!
+					</p>
+				</div>
+
+				<center><div class="wrap-input100 validate-input landing" data-validate = "please enter your zipcode e.g. 12345">
+					<input class="input100" type="text" name="zipcode" placeholder="Zip Code e.g. 12345">
+				</div>
+				<div class="wrap-input100 validate-input landing" data-validate="Please enter your name">
+					<input class="input100" type="text" name="user_name" placeholder="Name (optional)">
+				</div>
+				</center>
+
+				<div class = "container-contact100-form-btn">
+					<button class="contact100-form-btn">
+						<span>
+							find my reps &thinsp;
+							<i class="fa fa-long-arrow-right m-r-6"></i>
+						</span>
+					</button>
+				</div>
+			</form>
+		</div>
+		<div class="footer-container footer">
+			<p class="footer" style="font-size: 16px">This project could not exist without the help of
+				<a href="https://shaziamansuri.com" class="footer" target="_blank">Shazia Mansuri</a>,
+				<span style="color:#D3606A; font-family:'Noto Serif SC', serif;font-size: 16px;font-weight: 400;">Maithri</span>,
+				and <a href="https://hershpatel.github.io/" class="footer" target="_blank">Hersh Patel</a>.
+				<br>
+				<a href="mailto:sridhar.s.sriram@gmail" class="footer">Click here </a> to get in touch!
+			</p>
+		</div>
+
+	</div>
+</body>
+</html>

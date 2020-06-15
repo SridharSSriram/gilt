@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Reach your reps</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/icons8-rose-16.png') }}">
+<!--===============================================================================================-->
+<!-- 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+<!--===============================================================================================-->
+<!-- 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200&display=swap" rel="stylesheet"> -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/new_main.css') }}">
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<div class="card-container">
+	    <!--<span><a href="index.html"><img style=' width: 100px;-ms-transform: scale(0.3,0.3) rotate(180deg);-webkit-transform: scale(0.3,0.3) rotate(180deg);transform: scale(0.3,0.3) rotate(180deg);fill:#EA3443;margin-left: 100px;' class="back-arrow" src='static/images/right.png'></a></span>-->
+	    <span><a href="https://contactlocalreps.pythonanywhere.com"><img class="back-arrow" src='static/images/right.png'></a></span>
+        {result}
+	    <div class = "moving_forward">
+			<center><div class = "entity"><span>&hellip;</span></div></center>
+			<br>
+			<center><h2 >The work doesn't end here</h2></center>
+			<br>
+			<p>Here's a list of resources to continue reaching out to reps and starting local conversations:</p> <br>
+			<ul>
+				<li class = "resources"><strong><a href ="https://defund12.org/" target="_blank">Defund12: </a></strong><span style="font-size:18px">&thinsp;a list of cities across the US to reach out to defund the police </span></li>
+				<li class = "resources"><strong><a href ="https://komirisetti.com/EmailThem/" target="_blank">EmailThem: </a></strong><span style="font-size:18px">&thinsp;reach out to your county-level officials, governors, and US Senators/Representatives</span></li>
+				<li class = "resources"><strong><a href ="https://writetothem.com" target="_blank">WriteToThem: </a></strong><span style="font-size:18px">&thinsp;for people in the UK looking to write to their MPs</span></li>
+				<li class = "resources"><strong><a href ="https://github.com/alandgton/activism-mailbot" target="_blank">Activism Mailbot </a></strong><span style="font-size:18px">&thinsp;super easy way to email hundreds of local officials </span></li>
+				<li class = "resources"><strong><a href ="http://criticalresistance.org/" target="_blank">Critical Resistance: </a></strong><span style="font-size:18px">&thinsp;tools and resources to combat oppressive policing & the Prison-Industrial Complex </span></li>
+			</ul>
+		</div>
+		<br><br><br>
+		<center>
+		<div class="footer-container footer">
+			<p class="footer" style="font-size: 16px">This project could not exist without the help of
+				<a href="https://shaziamansuri.com" class="footer" target="_blank">Shazia Mansuri</a>,
+				<span style="color:#D3606A; font-family:'Noto Serif SC', serif;font-size: 16px;font-weight: 400;">Maithri</span>,
+				and <a href="https://hershpatel.github.io/" class="footer" target="_blank">Hersh Patel</a>.
+				<br>
+				<a href="mailto:sridhar.s.sriram@gmail" class="footer">Click here </a> to get in touch!
+			</p>
+		</div>
+		</center>
+	</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>hit up your local reps!</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/icons8-rose-16.png') }}">
+<!--===============================================================================================-->
+<!-- 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+<!--===============================================================================================-->
+<!-- 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+	<!-- <link rel="stylesheet" type="text/css" href="css/main.css"> -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/new_main.css') }}">
+<!--===============================================================================================-->
+</head>
+<body>
+	<div class="card-container">
+	    <span><a href="https://contactlocalreps.pythonanywhere.com"><img class="back-arrow" src='static/images/right.png'></a></span>
+	    <div class = "card">
+	        <h2>uh oh, something went wrong</h2>
+	        <br><br>
+	        <p style="font-size: 30px;font-weight: 300;">{error_message}</p>
+	    </div>
+	    <center>
+		<div class="footer-container footer">
+			<p class="footer">This project was impossible without
+				<a href="https://shaziamansuri.com" class="footer" target="_blank">Shazia Mansuri</a>,
+				<a href="https://hershpatel.github.io/" class="footer" target="_blank">Hersh Patel</a>,
+				and <span style="color:#D3606A; font-family:'Noto Serif SC', serif;font-size: 20px;font-weight: 400;">Maithri</span>.
+				<br>
+				<a href="mailto:sridhar.s.sriram@gmail" class="footer">Click here </a> to get in touch!
+			</p>
+		</div></center>
+	</div>
+
+
+</body>
+</html>
